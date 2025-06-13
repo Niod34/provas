@@ -2,7 +2,7 @@
 $host = "localhost";
 $dbname = "gerenciador_tarefas";
 $user = "root";
-$pass = "d12345";
+$pass = "Antetokounmpo34!";
 
 try {
     $pdo = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8", $user, $pass);

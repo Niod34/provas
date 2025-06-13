@@ -33,86 +33,228 @@ $paginaAtual = basename($_SERVER['PHP_SELF']);
     <meta charset="UTF-8">
     <title>Gerenciar Tarefas</title>
     <style>
-        body { font-family: Arial, sans-serif; padding: 20px; }
+    :root {
+        --primary: #003366; /* Azul SENAI */
+        --primary-dark: #002244;
+        --primary-light: #e6f2ff;
+        --accent: #0066cc;
+        --text: #333333;
+        --light: #f8f9fa;
+        --white: #ffffff;
+        --gray: #e9ecef;
+        --success: #4CAF50;
+        --warning: #FFC107;
+        --danger: #F44336;
+        --shadow-sm: 0 1px 3px rgba(0,0,0,0.12);
+        --shadow-md: 0 4px 6px rgba(0,0,0,0.1);
+        --shadow-lg: 0 10px 15px rgba(0,0,0,0.1);
+        --transition: all 0.2s ease-in-out;
+    }
 
-        .logo {
-            display: block;
-            margin: 20px auto;
-            width: 300px;
-            height: auto;
+    body {
+        font-family: 'Roboto', 'Segoe UI', sans-serif;
+        background-color: var(--light);
+        color: var(--text);
+        line-height: 1.6;
+        padding: 0;
+        margin: 0;
+    }
+
+    .logo {
+        display: block;
+        margin: 30px auto;
+        width: 180px;
+        height: auto;
+        filter: drop-shadow(var(--shadow-sm));
+    }
+
+    .menu {
+        background: var(--primary);
+        color: var(--white);
+        padding: 0 2rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        box-shadow: var(--shadow-md);
+        height: 70px;
+        position: sticky;
+        top: 0;
+        z-index: 100;
+    }
+
+    .menu .titulo {
+        font-weight: 600;
+        font-size: 1.3rem;
+        letter-spacing: 0.5px;
+    }
+
+    .menu .links {
+        display: flex;
+        gap: 1rem;
+    }
+
+    .menu .links a {
+        color: var(--white);
+        text-decoration: none;
+        padding: 0.5rem 1rem;
+        border-radius: 4px;
+        font-weight: 500;
+        transition: var(--transition);
+    }
+
+    .menu .links a:hover {
+        background-color: rgba(255, 255, 255, 0.15);
+    }
+
+    .menu .links a.ativo {
+        background-color: var(--primary-dark);
+        font-weight: 600;
+    }
+
+    .container {
+        max-width: 1200px;
+        margin: 2rem auto;
+        padding: 0 1rem;
+    }
+
+    h2 {
+        color: var(--primary);
+        font-size: 1.8rem;
+        margin: 2rem 0 1.5rem;
+        padding-bottom: 0.5rem;
+        border-bottom: 2px solid var(--primary-light);
+    }
+
+    .kanban-board {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1.5rem;
+        margin-top: 1.5rem;
+    }
+
+    .coluna {
+        background: var(--white);
+        border-radius: 8px;
+        padding: 1.5rem;
+        box-shadow: var(--shadow-sm);
+    }
+
+    .coluna h3 {
+        color: var(--primary);
+        font-size: 1.2rem;
+        margin-bottom: 1.5rem;
+        padding-bottom: 0.5rem;
+        border-bottom: 2px solid var(--gray);
+    }
+
+    .tarefa {
+        background: var(--white);
+        border-radius: 6px;
+        padding: 1.2rem;
+        margin-bottom: 1rem;
+        box-shadow: var(--shadow-sm);
+        border-left: 4px solid var(--accent);
+        transition: var(--transition);
+    }
+
+    .tarefa:hover {
+        transform: translateY(-3px);
+        box-shadow: var(--shadow-md);
+    }
+
+    .tarefa strong {
+        color: var(--primary);
+        font-weight: 500;
+    }
+
+    .botoes-linha {
+        display: flex;
+        gap: 0.8rem;
+        margin: 1rem 0 0.8rem;
+    }
+
+    .btn {
+        padding: 0.5rem 1rem;
+        border: none;
+        border-radius: 4px;
+        font-weight: 500;
+        cursor: pointer;
+        transition: var(--transition);
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .btn:hover {
+        transform: translateY(-2px);
+        box-shadow: var(--shadow-sm);
+    }
+
+    .editar {
+        background-color: var(--accent);
+        color: var(--white);
+        text-decoration: none;
+    }
+
+    .excluir {
+        background-color: var(--danger);
+        color: var(--white);
+    }
+
+    .alterar-status {
+        background-color: var(--success);
+        color: var(--white);
+    }
+
+    .form-status {
+        display: flex;
+        gap: 0.8rem;
+        margin-top: 1rem;
+    }
+
+    select {
+        padding: 0.5rem;
+        border: 1px solid var(--gray);
+        border-radius: 4px;
+        flex-grow: 1;
+        background-color: var(--light);
+    }
+
+    /* Cores por status */
+    .coluna:nth-child(1) .tarefa { border-left-color: var(--danger); }
+    .coluna:nth-child(2) .tarefa { border-left-color: var(--warning); }
+    .coluna:nth-child(3) .tarefa { border-left-color: var(--success); }
+
+    @media (max-width: 768px) {
+        .kanban-board {
+            grid-template-columns: 1fr;
         }
-
+        
         .menu {
-            background: #007bff;
-            color: white;
-            padding: 15px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+            flex-direction: column;
+            height: auto;
+            padding: 1rem;
         }
-
+        
         .menu .titulo {
-            font-weight: bold;
+            margin-bottom: 1rem;
         }
-
-        .menu .links a {
-            color: white;
-            text-decoration: none;
-            margin-left: 20px;
-            padding: 6px 10px;
-            border-radius: 5px;
+        
+        .menu .links {
+            width: 100%;
+            justify-content: space-around;
         }
-
-        .menu .links a.ativo {
-            background-color: #0056b3;
-        }
-
-        .coluna { width: 30%; float: left; margin-right: 3%; }
-        .tarefa {
-            background: #f0f0f0;  /* fundo cinza claro */
-            border: 1px solid #ccc;
-            padding: 10px;
-            margin-bottom: 10px;
-            border-radius: 8px;
-        }
-
-  
-
-        .clearfix::after { content: ""; display: table; clear: both; }
-
-        form { display: inline; }
-        button {
-            margin: 3px 0;
-            padding: 5px 10px;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-        }
-
-        .editar, .excluir, .alterar-status {
-            background-color: #0056b3;
-            color: white;
-        }
-
-        /* Alinhar botão editar e excluir lado a lado */
+        
         .botoes-linha {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 10px;
+            flex-direction: column;
+            gap: 0.5rem;
         }
-
-        .botoes-linha form {
-            margin: 0;
-        }
-
-        /* Status com botão lado a lado */
+        
         .form-status {
-            display: flex;
-            gap: 10px;
-            align-items: center;
-            margin-top: 10px;
+            flex-direction: column;
         }
-    </style>
+    }
+</style>
 </head>
 <body>
 
@@ -145,10 +287,7 @@ $paginaAtual = basename($_SERVER['PHP_SELF']);
                     <strong>Vinculada a:</strong> {$tarefa['nome_usuario']}<br><br>
 
                     <div class='botoes-linha'>
-                        <form method='post' action='editar_tarefa.php'>
-                            <input type='hidden' name='id_tarefa' value='{$tarefa['id_tarefa']}'>
-                            <button class='editar'>Editar</button>
-                        </form>
+                        <a href='editarT.php?id_tarefa={$tarefa['id_tarefa']}' class='editar'>Editar</a>
 
                         <form method='post'>
                             <input type='hidden' name='id_tarefa' value='{$tarefa['id_tarefa']}'>

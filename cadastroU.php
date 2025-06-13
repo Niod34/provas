@@ -32,65 +32,189 @@ $paginaAtual = basename($_SERVER['PHP_SELF']);
     <meta charset="UTF-8">
     <title>Cadastro de Usuários</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            padding: 20px;
-        }
+    :root {
+        --primary: #003366; /* Azul SENAI */
+        --primary-dark: #002244;
+        --primary-light: #e6f2ff;
+        --accent: #0066cc;
+        --text: #333333;
+        --light: #f8f9fa;
+        --white: #ffffff;
+        --gray: #e9ecef;
+        --shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    }
 
-        .logo {
-            display: block;
-            margin: 20px auto;
-            width: 300px;
-            height: auto;
-        }
+    body {
+        font-family: 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+        background-color: var(--light);
+        color: var(--text);
+        line-height: 1.6;
+        margin: 0;
+        padding: 0;
+    }
 
+    .logo {
+        display: block;
+        margin: 30px auto;
+        width: 200px;
+        height: auto;
+        filter: drop-shadow(var(--shadow));
+    }
+
+    .menu {
+        background: var(--primary);
+        color: var(--white);
+        padding: 0 40px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        box-shadow: var(--shadow);
+        height: 70px;
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+    }
+
+    .menu .titulo {
+        font-weight: 700;
+        font-size: 1.4rem;
+        letter-spacing: 0.5px;
+    }
+
+    .menu .links {
+        display: flex;
+        gap: 15px;
+    }
+
+    .menu .links a {
+        color: var(--white);
+        text-decoration: none;
+        padding: 10px 20px;
+        border-radius: 6px;
+        font-weight: 500;
+        transition: var(--transition);
+        display: flex;
+        align-items: center;
+    }
+
+    .menu .links a:hover {
+        background-color: rgba(255, 255, 255, 0.15);
+        transform: translateY(-2px);
+    }
+
+    .menu .links a.ativo {
+        background-color: var(--primary-dark);
+        box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .container {
+        max-width: 800px;
+        margin: 40px auto;
+        padding: 0 20px;
+    }
+
+    .card {
+        background: var(--white);
+        border-radius: 10px;
+        box-shadow: var(--shadow);
+        padding: 30px;
+        margin-top: 30px;
+    }
+
+    h3 {
+        color: var(--primary);
+        margin: 0 0 25px 0;
+        font-size: 1.5rem;
+        font-weight: 600;
+        position: relative;
+        padding-bottom: 10px;
+    }
+
+    h3::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 50px;
+        height: 3px;
+        background: var(--accent);
+    }
+
+    .form-group {
+        margin-bottom: 20px;
+    }
+
+    label {
+        display: block;
+        margin-bottom: 8px;
+        font-weight: 500;
+        color: var(--primary);
+    }
+
+    input[type="text"],
+    input[type="email"] {
+        width: 100%;
+        padding: 12px 15px;
+        border: 1px solid var(--gray);
+        border-radius: 6px;
+        font-size: 1rem;
+        transition: var(--transition);
+        background-color: var(--light);
+    }
+
+    input[type="text"]:focus,
+    input[type="email"]:focus {
+        outline: none;
+        border-color: var(--accent);
+        box-shadow: 0 0 0 3px rgba(0, 102, 204, 0.2);
+        background-color: var(--white);
+    }
+
+    input[type="submit"] {
+        background-color: var(--primary);
+        color: var(--white);
+        padding: 12px 25px;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        font-size: 1rem;
+        font-weight: 600;
+        transition: var(--transition);
+        width: 100%;
+        margin-top: 10px;
+        letter-spacing: 0.5px;
+    }
+
+    input[type="submit"]:hover {
+        background-color: var(--primary-dark);
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    @media (max-width: 768px) {
         .menu {
-            background: #007bff;
-            color: white;
+            flex-direction: column;
+            height: auto;
             padding: 15px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
         }
-
+        
         .menu .titulo {
-            font-weight: bold;
+            margin-bottom: 15px;
         }
-
+        
+        .menu .links {
+            flex-direction: column;
+            width: 100%;
+            gap: 5px;
+        }
+        
         .menu .links a {
-            color: white;
-            margin-left: 20px;
-            text-decoration: none;
-            padding: 6px 10px;
-            border-radius: 5px;
+            justify-content: center;
+            padding: 8px;
         }
-
-        .menu .links a.ativo {
-            background-color: #0056b3;
-        }
-
-        form {
-            margin-top: 30px;
-        }
-
-        label, input {
-            display: block;
-            margin-bottom: 10px;
-        }
-
-        input[type="submit"] {
-            background-color: #007bff;
-            color: white;
-            padding: 5px 15px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-
-        input[type="submit"]:hover {
-            background-color: #0056b3;
-        }
-    </style>
+    }
+</style>
 </head>
 <body>
 

@@ -41,51 +41,130 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <meta charset="UTF-8">
     <title>Cadastro de Tarefas</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            padding: 20px;
-        }
-        .logo {
-            display: block;
-            margin: 20px auto;
-            width: 300px;
-            height: auto;
-        }
+    :root {
+        --primary-color: #003366; /* Azul escuro SENAI */
+        --secondary-color: #0066cc; /* Azul médio SENAI */
+        --accent-color: #e6f2ff; /* Azul claro */
+        --text-color: #333333;
+        --light-gray: #f5f5f5;
+        --white: #ffffff;
+        --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        --transition: all 0.3s ease;
+    }
+    
+    body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background-color: var(--light-gray);
+    }
+    
+    .logo {
+        height: 80px;
+        width: auto;
+        display: block;
+        margin: 0 auto 30px;
+    }
+    
+    .menu {
+        background: var(--primary-color);
+        color: var(--white);
+        padding: 15px 0;
+        box-shadow: var(--shadow);
+        margin-bottom: 30px;
+    }
+    
+    .menu .titulo {
+        font-weight: bold;
+        font-size: 1.2rem;
+    }
+    
+    .menu .links a {
+        color: var(--white);
+        margin-left: 25px;
+        text-decoration: none;
+        padding: 5px 10px;
+        border-radius: 4px;
+        transition: var(--transition);
+    }
+    
+    .menu .links a:hover {
+        background-color: rgba(255, 255, 255, 0.2);
+    }
+    
+    form {
+        background-color: var(--white);
+        border-radius: 8px;
+        box-shadow: var(--shadow);
+        padding: 30px;
+        margin-top: 30px;
+        border-top: 4px solid var(--primary-color);
+    }
+    
+    h3 {
+        color: var(--primary-color);
+        margin-bottom: 20px;
+        font-size: 1.5rem;
+        padding-bottom: 10px;
+        border-bottom: 2px solid var(--accent-color);
+    }
+    
+    label {
+        display: block;
+        margin-bottom: 8px;
+        font-weight: 600;
+        color: var(--primary-color);
+    }
+    
+    input[type="text"],
+    select {
+        width: 100%;
+        padding: 12px 15px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        font-size: 1rem;
+        transition: var(--transition);
+        margin-bottom: 20px;
+    }
+    
+    input[type="text"]:focus,
+    select:focus {
+        outline: none;
+        border-color: var(--secondary-color);
+        box-shadow: 0 0 0 2px rgba(0, 102, 204, 0.2);
+    }
+    
+    input[type="submit"] {
+        background-color: var(--primary-color);
+        color: var(--white);
+        padding: 12px 25px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 1rem;
+        font-weight: 600;
+        transition: var(--transition);
+        width: 100%;
+    }
+    
+    input[type="submit"]:hover {
+        background-color: var(--secondary-color);
+        transform: translateY(-2px);
+    }
+    
+    @media (max-width: 768px) {
         .menu {
-            background: #007bff;
-            color: white;
-            padding: 15px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+            text-align: center;
         }
-        .menu .titulo {
-            font-weight: bold;
+        
+        .menu .links {
+            margin-top: 15px;
         }
+        
         .menu .links a {
-            color: white;
-            margin-left: 20px;
-            text-decoration: none;
+            margin: 0 10px;
+            display: inline-block;
         }
-        form {
-            margin-top: 30px;
-        }
-        label, input, select {
-            display: block;
-            margin-bottom: 10px;
-        }
-        input[type="submit"] {
-            background-color: #007bff;
-            color: white;
-            padding: 5px 15px;
-            border: none;
-            cursor: pointer;
-            border-radius: 5px;
-        }
-        input[type="submit"]:hover {
-            background-color: #0056b3;
-        }
-    </style>
+    }
+</style>
 </head>
 <body>
 
